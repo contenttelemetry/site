@@ -1,0 +1,6 @@
+# JSON Schema documents are fetched cross-origin by validators and tooling.
+/schema/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600

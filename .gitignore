@@ -1,0 +1,4 @@
+.wrangler/
+
+# Operator-only notes — never published to the public repo
+*.local.md
