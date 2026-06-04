@@ -1,0 +1,53 @@
+name: schema drift
+
+# Each public/schema/vX.Y/ directory must be byte-identical to the matching
+# tagged release in the canonical spec repo. We pin to the tag, never to main,
+# because a published /schema/vX.Y/ URL must always return the same document.
+# This job fails if a served schema has drifted from its canonical tag.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1" # weekly, to catch a re-tagged upstream patch
+
+permissions:
+  contents: read
+
+env:
+  CANONICAL: SPUR-Coalition/telemetry
+  SCHEMAS: telemetry-session telemetry-event manifest
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare served schemas against canonical tags
+        run: |
+          set -euo pipefail
+          fail=0
+          for dir in public/schema/v*/; do
+            tag="$(basename "$dir")"   # e.g. v0.1 -> canonical tag v0.1
+            for name in $SCHEMAS; do
+              served="$dir$name.json"
+              [ -f "$served" ] || continue
+              url="https://raw.githubusercontent.com/$CANONICAL/$tag/$name.json"
+              # Fetch to a file (never via $(...), which strips trailing
+              # newlines and would manufacture phantom drift) and byte-diff.
+              if ! curl -fsSL "$url" -o canonical.json; then
+                echo "::error file=$served::cannot fetch $url (is the $tag tag published?)"
+                fail=1; continue
+              fi
+              if ! diff canonical.json "$served" >/dev/null; then
+                echo "::error file=$served::drift from $CANONICAL@$tag"
+                diff canonical.json "$served" || true
+                fail=1
+              else
+                echo "ok: $served == $CANONICAL@$tag"
+              fi
+            done
+          done
+          rm -f canonical.json
+          exit $fail
