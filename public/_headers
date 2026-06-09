@@ -4,3 +4,10 @@
   Access-Control-Allow-Methods: GET, OPTIONS
   Content-Type: application/json; charset=utf-8
   Cache-Control: public, max-age=3600
+
+# Profile-hosted schemas (e.g. the licence-binding reporting config) are fetched the same way.
+/profiles/spur/reporting-config.schema.json
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
