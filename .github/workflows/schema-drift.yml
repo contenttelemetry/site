@@ -10,7 +10,7 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: "0 6 * * 1" # weekly, to catch a re-tagged upstream patch
+    - cron: "0 6 * * *" # daily, to catch a re-tagged upstream patch or a stale deploy
 
 permissions:
   contents: read
@@ -50,4 +50,31 @@ jobs:
             done
           done
           rm -f canonical.json
+          exit $fail
+
+  # Deploys are manual (wrangler pages deploy), so the live site can silently
+  # lag the repo. This job fails when a served document differs from HEAD.
+  live-drift:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare live site against this repo
+        run: |
+          set -euo pipefail
+          fail=0
+          for f in public/schema/v*/*.json public/profiles/spur/*.schema.json; do
+            url="https://contenttelemetry.org/${f#public/}"
+            if ! curl -fsS "$url" -o live.json; then
+              echo "::error file=$f::cannot fetch $url"
+              fail=1; continue
+            fi
+            if ! diff live.json "$f" >/dev/null; then
+              echo "::error file=$f::live site has drifted from the repo - redeploy (wrangler pages deploy public)"
+              fail=1
+            else
+              echo "ok: $url == $f"
+            fi
+          done
+          rm -f live.json
           exit $fail
