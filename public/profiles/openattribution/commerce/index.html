@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAttribution Commerce Profile</title>
+  <meta name="description" content="The OpenAttribution Commerce profile of the Content Telemetry standard.">
+  <style>
+    :root { color-scheme: light dark; }
+    body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+           max-width: 46rem; margin: 0 auto; padding: 4rem 1.5rem; }
+    h1 { font-size: 2rem; margin: 0 0 .25rem; letter-spacing: -.01em; }
+    .tag { color: #666; margin: 0 0 2rem; }
+    h2 { font-size: 1.05rem; margin: 2rem 0 .5rem; }
+    ul { padding-left: 1.2rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+    pre { background: rgba(127,127,127,.12); padding: 1rem; border-radius: 6px; overflow-x: auto;
+          font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85em; line-height: 1.5; }
+    a { color: inherit; }
+    footer { margin-top: 3rem; color: #888; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <h1>OpenAttribution Commerce Profile</h1>
+  <p class="tag">The commerce-facing profile of the <a href="/">Content Telemetry</a> standard for agentic commerce and click-out attribution.</p>
+
+  <p><strong>Profile URI:</strong> <code>https://contenttelemetry.org/profiles/openattribution/commerce</code></p>
+  <p><strong>Status:</strong> v0.1 (draft). Constrains Content Telemetry v0.1.</p>
+
+  <h2>The profile</h2>
+  <p>The profile adds commerce requirements on top of the Content Telemetry wire format: click-out reporting, <code>ctx_token</code> propagation across the agent-to-landing-page boundary, multi-citation attribution, and telemetry-consumer support for resolving a click token to a privacy- and consent-gated click manifest.</p>
+  <ul>
+    <li><a href="https://github.com/openattribution-org/commerce-profile">Profile document, fixtures, and accreditation runner</a></li>
+    <li><a href="https://github.com/SPUR-Coalition/telemetry">Content Telemetry standard</a> (the wire format this profile constrains)</li>
+  </ul>
+
+  <h2>Reporting binding</h2>
+  <p>A licensing declaration can reference this URI when commerce-specific click-out and multi-citation attribution requirements apply. The declaration should carry the licence-scoped demands; the telemetry manifest carries identity, domains, keys, and endpoints.</p>
+
+  <pre>&lt;reporting type="telemetry"
+           profile="https://contenttelemetry.org/profiles/openattribution/commerce"&gt;
+  &lt;![CDATA[
+  {
+    "conformance_level": "citation",
+    "privacy_level": "intent",
+    "delivery": "real_time",
+    "capabilities": ["ctx_token", "click_manifest"]
+  }
+  ]]&gt;
+&lt;/reporting&gt;</pre>
+
+  <p>The profile does not mandate a specific attribution algorithm or commission model. It requires that every source visible in the click manifest is eligible for credit when the manifest is available.</p>
+
+  <h2>Maintainer</h2>
+  <p>Maintained by OpenAttribution. Questions go to
+     <a href="mailto:alex@openattribution.org">alex@openattribution.org</a>.</p>
+
+  <footer><a href="/profiles/">Profiles</a></footer>
+</body>
+</html>
