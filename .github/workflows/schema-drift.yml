@@ -52,8 +52,9 @@ jobs:
           rm -f canonical.json
           exit $fail
 
-  # Deploys are manual (wrangler pages deploy), so the live site can silently
-  # lag the repo. This job fails when a served document differs from HEAD.
+  # Pages deploys from main on push, but a failed or missed build leaves the
+  # live site silently lagging the repo. This job fails when a served document
+  # differs from HEAD.
   live-drift:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -70,7 +71,7 @@ jobs:
               fail=1; continue
             fi
             if ! diff live.json "$f" >/dev/null; then
-              echo "::error file=$f::live site has drifted from the repo - redeploy (wrangler pages deploy public)"
+              echo "::error file=$f::live site has drifted from the repo - check the Pages build for main"
               fail=1
             else
               echo "ok: $url == $f"
