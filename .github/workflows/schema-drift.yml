@@ -17,7 +17,7 @@ permissions:
 
 env:
   CANONICAL: SPUR-Coalition/telemetry
-  SCHEMAS: telemetry-session telemetry-event manifest
+  SCHEMAS: telemetry-session telemetry-event telemetry-event-batch manifest
 
 jobs:
   drift:
