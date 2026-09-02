@@ -20,22 +20,27 @@
 </head>
 <body>
   <h1>Content Telemetry</h1>
-  <p class="tag">An open standard for reporting how AI agents use content &mdash; from retrieval through grounding, citation, display, and user engagement.</p>
+  <p class="tag">An open standard for reporting how AI agents use content &mdash; from retrieval through grounding, citation, presentation, and user engagement.</p>
 
-  <p><strong>Status:</strong> v0.1 (preview). Public comment opens 12 June 2026.</p>
+  <p><strong>Status:</strong> Version 1.0, published 2 September 2026
+     (<a href="https://github.com/SPUR-Coalition/telemetry/releases/tag/v1.0">release notes</a>).
+     Migration from the v0.1 preview is in
+     <a href="https://github.com/SPUR-Coalition/telemetry/blob/main/SPECIFICATION.md#121-migration-from-the-v01-preview">SPECIFICATION.md section 12.1</a>.</p>
 
   <h2>Specification</h2>
   <ul>
     <li><a href="https://github.com/SPUR-Coalition/telemetry">Specification, schemas, and conformance suite</a> (Apache&nbsp;2.0)</li>
   </ul>
 
-  <h2>JSON Schemas (v0.1)</h2>
+  <h2>JSON Schemas (v1)</h2>
   <ul>
-    <li><a href="/schema/v0.1/telemetry-session.json"><code>/schema/v0.1/telemetry-session.json</code></a></li>
-    <li><a href="/schema/v0.1/telemetry-event.json"><code>/schema/v0.1/telemetry-event.json</code></a></li>
-    <li><a href="/schema/v0.1/telemetry-event-batch.json"><code>/schema/v0.1/telemetry-event-batch.json</code></a></li>
-    <li><a href="/schema/v0.1/manifest.json"><code>/schema/v0.1/manifest.json</code></a></li>
+    <li><a href="/schema/v1/telemetry-session.json"><code>/schema/v1/telemetry-session.json</code></a></li>
+    <li><a href="/schema/v1/telemetry-event.json"><code>/schema/v1/telemetry-event.json</code></a></li>
+    <li><a href="/schema/v1/telemetry-event-batch.json"><code>/schema/v1/telemetry-event-batch.json</code></a></li>
+    <li><a href="/schema/v1/manifest.json"><code>/schema/v1/manifest.json</code></a></li>
   </ul>
+  <p>The withdrawn v0.1 preview schemas remain served under
+     <code>/schema/v0.1/</code> for existing emitters.</p>
 
   <h2>Profiles</h2>
   <p>Communities layer their own requirements on the neutral standard:</p>
